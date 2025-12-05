@@ -114,11 +114,11 @@ export default function SignupSuccessPage() {
             </p>
             <div className="mt-4 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <a
-                href="mailto:support@horizongrowth.com"
+                href="mailto:support@horizoncreditrepair.com"
                 className="flex items-center gap-2 text-sm text-primary hover:underline"
               >
                 <Mail className="h-4 w-4" />
-                support@horizongrowth.com
+                support@horizoncreditrepair.com
               </a>
               <a
                 href="tel:+18642375511"

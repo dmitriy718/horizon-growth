@@ -42,10 +42,10 @@ chown -R $USER:$USER /var/www/horizon
 
 # Create nginx config
 echo "⚙️  Configuring nginx..."
-cat > /etc/nginx/sites-available/horizongrowth.com << 'EOF'
+cat > /etc/nginx/sites-available/horizoncreditrepair.com << 'EOF'
 server {
     listen 80;
-    server_name horizongrowth.com www.horizongrowth.com;
+    server_name horizoncreditrepair.com www.horizoncreditrepair.com;
     
     # Security headers
     add_header X-Frame-Options "SAMEORIGIN" always;
@@ -79,7 +79,7 @@ server {
 EOF
 
 # Enable site
-ln -sf /etc/nginx/sites-available/horizongrowth.com /etc/nginx/sites-enabled/
+ln -sf /etc/nginx/sites-available/horizoncreditrepair.com /etc/nginx/sites-enabled/
 rm -f /etc/nginx/sites-enabled/default
 
 # Test and reload nginx
@@ -100,8 +100,8 @@ echo ""
 echo "✅ Server setup complete!"
 echo ""
 echo "Next steps:"
-echo "1. Point your domain (horizongrowth.com) to this server's IP"
-echo "2. Run: certbot --nginx -d horizongrowth.com -d www.horizongrowth.com"
+echo "1. Point your domain (horizoncreditrepair.com) to this server's IP"
+echo "2. Run: certbot --nginx -d horizoncreditrepair.com -d www.horizoncreditrepair.com"
 echo "3. Deploy your application with: ./deploy/deploy.sh"
 echo ""
 

@@ -33,7 +33,7 @@ Important guidelines:
 Key facts about Horizon Credit Repair:
 - Located at 204 Hotchkiss Ln, Duncan, SC 29334
 - Phone: (864) 237-5511
-- Website: horizongrowth.com
+- Website: horizoncreditrepair.com
 - Pricing: Basic ($79/mo), Premier ($109/mo), Premier Plus ($139/mo)
 - All plans include a 7-day free trial
 - 90-day money-back guarantee

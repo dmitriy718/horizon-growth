@@ -68,6 +68,6 @@ ENDSSH
 
 echo ""
 echo "🎉 Deployment complete!"
-echo "   Site: https://horizongrowth.com"
+echo "   Site: https://horizoncreditrepair.com"
 echo ""
 
