@@ -1,0 +1,7 @@
+packages:
+  - "src/website"
+  - "src/backend"
+  - "src/backend/apps/*"
+  - "src/backend/libs/*"
+  - "src/app"
+

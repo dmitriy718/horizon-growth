@@ -1,0 +1,51 @@
+{
+  "name": "horizon-credit-repair",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Horizon Credit Repair - AI-Powered Credit Repair Platform",
+  "workspaces": [
+    "src/website",
+    "src/backend",
+    "src/backend/apps/*",
+    "src/backend/libs/*",
+    "src/app"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "website:dev": "pnpm --filter @horizon/website dev",
+    "backend:dev": "pnpm --filter @horizon/backend dev",
+    "app:dev": "pnpm --filter @horizon/mobile-app start"
+  },
+  "devDependencies": {
+    "turbo": "^1.11.2",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.12.1",
+  "keywords": [
+    "credit-repair",
+    "fintech",
+    "saas",
+    "react",
+    "nextjs",
+    "nestjs",
+    "react-native"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/horizoncreditrepair/horizon.git"
+  },
+  "author": "Horizon Credit Repair Team",
+  "license": "UNLICENSED"
+}
+
