@@ -39,8 +39,8 @@ export async function POST(request: NextRequest) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     
     await sgMail.send({
-      to: 'support@horizoncreditrepair.com',
-      from: 'noreply@horizoncreditrepair.com',
+      to: 'support@horizoncredit.net',
+      from: 'noreply@horizoncredit.net',
       subject: `[Contact Form] ${subject} - ${name}`,
       html: `
         <h2>New Contact Form Submission</h2>

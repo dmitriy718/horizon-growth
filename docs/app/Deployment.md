@@ -90,7 +90,7 @@
   "submit": {
     "production": {
       "ios": {
-        "appleId": "developer@horizoncreditrepair.com",
+        "appleId": "developer@horizoncredit.net",
         "ascAppId": "1234567890",
         "appleTeamId": "ABCD1234"
       },
@@ -282,7 +282,7 @@ jobs:
 │  │   ├── Contact Info (name, email, phone)                         │
 │  │   ├── Identifiers (user ID, device ID)                          │
 │  │   └── Usage Data                                                │
-│  └── Privacy Policy URL: https://horizoncreditrepair.com/privacy   │
+│  └── Privacy Policy URL: https://horizoncredit.net/privacy   │
 │                                                                     │
 │  APP REVIEW INFORMATION                                             │
 │  ├── Demo Account: demo@horizon.test / TestDemo123!                │
@@ -307,8 +307,8 @@ jobs:
 │  STORE LISTING                                                      │
 │  ├── Category: Finance                                             │
 │  ├── Content Rating: Everyone                                      │
-│  ├── Contact Email: support@horizoncreditrepair.com                │
-│  └── Privacy Policy: https://horizoncreditrepair.com/privacy       │
+│  ├── Contact Email: support@horizoncredit.net                │
+│  └── Privacy Policy: https://horizoncredit.net/privacy       │
 │                                                                     │
 │  RELEASE MANAGEMENT                                                 │
 │  ├── Production Track                                              │
@@ -523,7 +523,7 @@ Sentry.init({
   tracesSampleRate: 0.2,
   integrations: [
     new Sentry.ReactNativeTracing({
-      tracingOrigins: ['api.horizoncreditrepair.com'],
+      tracingOrigins: ['api.horizoncredit.net'],
       routingInstrumentation: Sentry.reactNavigationIntegration,
     }),
   ],

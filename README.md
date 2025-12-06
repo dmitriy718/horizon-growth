@@ -281,8 +281,8 @@ Proprietary - All rights reserved © 2024 Horizon Credit Repair
 
 ## 📞 Support
 
-- **Documentation:** [docs.horizoncreditrepair.com](https://docs.horizoncreditrepair.com)
-- **Email:** support@horizoncreditrepair.com
+- **Documentation:** [docs.horizoncredit.net](https://docs.horizoncredit.net)
+- **Email:** support@horizoncredit.net
 - **Slack:** #horizon-engineering (internal)
 
 ---

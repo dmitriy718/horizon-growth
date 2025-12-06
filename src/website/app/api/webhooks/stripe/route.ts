@@ -1,7 +1,7 @@
 /**
  * Stripe Webhook Handler
  * 
- * Webhook URL to provide to user: https://horizoncreditrepair.com/api/webhooks/stripe
+ * Webhook URL to provide to user: https://horizoncredit.net/api/webhooks/stripe
  * 
  * Events to listen for in Stripe Dashboard:
  * - checkout.session.completed

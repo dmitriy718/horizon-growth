@@ -26,17 +26,17 @@ export const siteConfig = {
       tollfree: "1-800-HORIZON", // Update when you have a toll-free number
     },
     email: {
-      support: "support@horizoncreditrepair.com",
-      info: "info@horizoncreditrepair.com",
-      legal: "legal@horizoncreditrepair.com",
+      support: "support@horizoncredit.net",
+      info: "info@horizoncredit.net",
+      legal: "legal@horizoncredit.net",
     },
   },
 
   // URLs
   url: {
-    production: "https://horizoncreditrepair.com",
-    app: "https://app.horizoncreditrepair.com",
-    api: "https://api.horizoncreditrepair.com",
+    production: "https://horizoncredit.net",
+    app: "https://app.horizoncredit.net",
+    api: "https://api.horizoncredit.net",
   },
 
   // Social Media (update with real handles when created)

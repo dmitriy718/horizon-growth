@@ -9,7 +9,7 @@
 
 ## Pre-Deployment Checklist
 
-- [ ] Domain (horizoncreditrepair.com) pointing to server IP (65.38.99.52)
+- [ ] Domain (horizoncredit.net) pointing to server IP (65.38.99.52)
 - [ ] SSL certificate configured (Let's Encrypt recommended)
 - [ ] Environment variables configured
 - [ ] Stripe webhook endpoint created in Stripe Dashboard
@@ -53,12 +53,12 @@ apt install -y certbot python3-certbot-nginx
 
 ### 2. Configure Nginx
 
-Create `/etc/nginx/sites-available/horizoncreditrepair.com`:
+Create `/etc/nginx/sites-available/horizoncredit.net`:
 
 ```nginx
 server {
     listen 80;
-    server_name horizoncreditrepair.com www.horizoncreditrepair.com;
+    server_name horizoncredit.net www.horizoncredit.net;
     
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -76,14 +76,14 @@ server {
 
 Enable the site:
 ```bash
-ln -s /etc/nginx/sites-available/horizoncreditrepair.com /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/horizoncredit.net /etc/nginx/sites-enabled/
 nginx -t && systemctl reload nginx
 ```
 
 ### 3. Setup SSL
 
 ```bash
-certbot --nginx -d horizoncreditrepair.com -d www.horizoncreditrepair.com
+certbot --nginx -d horizoncredit.net -d www.horizoncredit.net
 ```
 
 ### 4. Deploy Application
@@ -113,7 +113,7 @@ pm2 startup
 Create `/var/www/horizon/src/website/.env.local` on the server:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://horizoncreditrepair.com
+NEXT_PUBLIC_SITE_URL=https://horizoncredit.net
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_xxx
 STRIPE_SECRET_KEY=sk_live_xxx
 STRIPE_WEBHOOK_SECRET=whsec_xxx

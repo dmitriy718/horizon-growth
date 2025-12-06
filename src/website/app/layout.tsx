@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Horizon Credit Repair" }],
   creator: "Horizon Credit Repair",
-  metadataBase: new URL("https://horizoncreditrepair.com"),
+  metadataBase: new URL("https://horizoncredit.net"),
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://horizoncreditrepair.com",
+    url: "https://horizoncredit.net",
     siteName: "Horizon Credit Repair",
     title: "Horizon Credit Repair | Your Path to Better Credit",
     description:

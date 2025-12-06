@@ -12,7 +12,7 @@
 | **Framework** | Next.js (automatic optimization) |
 | **Edge Network** | Global CDN with 100+ PoPs |
 | **SSL** | Automatic HTTPS |
-| **Domains** | horizoncreditrepair.com + subdomains |
+| **Domains** | horizoncredit.net + subdomains |
 
 ### 1.2 Pricing Tier Analysis
 
@@ -189,7 +189,7 @@ jobs:
 │                                                                  │
 │  PRODUCTION (Vercel Production)                                  │
 │  ├── NEXT_PUBLIC_SANITY_DATASET=production                      │
-│  ├── NEXT_PUBLIC_SITE_URL=https://horizoncreditrepair.com       │
+│  ├── NEXT_PUBLIC_SITE_URL=https://horizoncredit.net       │
 │  ├── SANITY_API_TOKEN=sk-prod-xxx                               │
 │  ├── SENDGRID_API_KEY=SG.xxx                                    │
 │  ├── HUBSPOT_API_KEY=xxx                                        │

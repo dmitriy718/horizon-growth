@@ -259,7 +259,7 @@ ENTITY RELATIONSHIP DIAGRAM
 API ENDPOINT STRUCTURE
 ══════════════════════
 
-BASE URL: https://api.horizoncreditrepair.com/v1
+BASE URL: https://api.horizoncredit.net/v1
 
 AUTHENTICATION
 ├── POST   /auth/register
