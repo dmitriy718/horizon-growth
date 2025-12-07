@@ -100,18 +100,34 @@ export async function POST(request: Request) {
           role: "system",
           content: `You are a senior credit expert and content writer for Horizon Credit Repair, a legitimate credit repair company based in Duncan, South Carolina. Write helpful, accurate, and engaging blog posts about credit-related topics.
 
+IMPORTANT FORMATTING RULES:
+- DO NOT include the title as an H1 heading in the content (the title is displayed separately)
+- Start the content directly with an introduction paragraph
+- Use ## for main section headings (H2)
+- Use ### for subsection headings (H3)
+- Leave a blank line before and after every heading
+- Leave a blank line between paragraphs
+- Use bullet points with proper spacing (one item per line with blank line after the list)
+- For numbered steps, use 1. 2. 3. format with clear explanations for each step
+- Bold important terms using **bold text**
+- Include a "Key Takeaways" or "Summary" section near the end
+
+CONTENT STRUCTURE:
+1. Opening paragraph (2-3 sentences introducing the topic)
+2. Main content with 3-5 major sections (H2 headings)
+3. Each major section can have subsections (H3 headings)
+4. Practical tips or steps section
+5. Common questions/misconceptions section
+6. Conclusion with call-to-action
+
 Your posts should:
-- Be educational and actionable with specific steps readers can take
-- Use simple language that anyone can understand
-- Include practical tips and real examples
 - Be 900-1400 words (4-5 minute read)
-- Have a clear structure with H2 and H3 headings
-- Include SEO-friendly keywords naturally throughout
-- End with a soft call-to-action encouraging readers to learn more about Horizon Credit Repair services
+- Use simple language anyone can understand
+- Include practical, actionable advice
+- Include relevant statistics when applicable
 - Never make false claims or guarantee specific results
 - Always be factually accurate about credit laws (FCRA, FDCPA, CROA)
-- Include relevant statistics when applicable
-- Address common questions readers might have
+- End with a soft call-to-action to learn more about Horizon Credit Repair services
 
 Output format must be valid JSON with these exact fields:
 {
@@ -120,12 +136,21 @@ Output format must be valid JSON with these exact fields:
   "category": "One of: Credit Scores, Credit Reports, Credit Building, Credit Repair, Credit Cards, Debt, Identity Protection",
   "tags": ["array", "of", "5-8", "relevant", "lowercase", "keywords"],
   "readTime": "X min read",
-  "content": "Full article content in Markdown format with proper headings"
+  "content": "Full article content in Markdown format - NO H1 title, start with introduction"
 }`,
         },
         {
           role: "user",
-          content: `Write a comprehensive, SEO-optimized blog post about "${topic}" for our credit repair website. The post should help readers understand the topic thoroughly and provide actionable advice they can implement today. Make sure it's unique, valuable content that demonstrates expertise and could rank well in search engines.`,
+          content: `Write a comprehensive, SEO-optimized blog post about "${topic}" for our credit repair website. 
+
+Remember: 
+- DO NOT start with a # title heading - the title is shown separately
+- Start directly with an engaging introduction paragraph
+- Use clear section headings with ## and ###
+- Make the content scannable with good visual hierarchy
+- Include practical steps readers can take today
+
+The post should help readers understand the topic thoroughly and provide actionable advice they can implement today.`,
         },
       ],
       response_format: { type: "json_object" },

@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ReactMarkdown from "react-markdown";
 import { getPostBySlug, getRecentPosts } from "@/lib/blog";
+import { ArticleContent } from "./article-content";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -59,13 +59,13 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-[#1E3A5F] to-[#2D4A6F] text-white py-12">
+      {/* Hero Section with Clear Title */}
+      <section className="bg-gradient-to-r from-[#1E3A5F] to-[#2D4A6F] text-white py-16 md:py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <Link
               href="/blog"
-              className="inline-flex items-center text-blue-200 hover:text-white mb-6 transition-colors"
+              className="inline-flex items-center text-blue-200 hover:text-white mb-8 transition-colors text-sm"
             >
               <svg
                 className="w-4 h-4 mr-2"
@@ -83,20 +83,33 @@ export default async function BlogPostPage({ params }: PageProps) {
               Back to Blog
             </Link>
 
-            <div className="flex items-center gap-3 mb-4">
-              <span className="bg-white/20 text-sm px-3 py-1 rounded-full">
+            {/* Category & Read Time */}
+            <div className="flex items-center gap-3 mb-6">
+              <span className="bg-emerald-500 text-white text-sm font-medium px-4 py-1.5 rounded-full">
                 {post.category}
               </span>
-              <span className="text-blue-200">{post.readTime}</span>
+              <span className="text-blue-200 text-sm">{post.readTime}</span>
             </div>
 
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            {/* Main Title - Large and Clear */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               {post.title}
             </h1>
 
-            <div className="flex items-center gap-4 text-blue-200">
-              <span>By {post.author}</span>
-              <span>•</span>
+            {/* Excerpt/Summary */}
+            <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-3xl">
+              {post.excerpt}
+            </p>
+
+            {/* Author & Date */}
+            <div className="flex flex-wrap items-center gap-4 text-blue-200 text-sm border-t border-white/20 pt-6">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                  <span className="text-white font-semibold">H</span>
+                </div>
+                <span className="font-medium text-white">{post.author}</span>
+              </div>
+              <span className="hidden sm:block">•</span>
               <time dateTime={post.publishedAt.toISOString()}>
                 {new Date(post.publishedAt).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -106,7 +119,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               </time>
               {post.views > 0 && (
                 <>
-                  <span>•</span>
+                  <span className="hidden sm:block">•</span>
                   <span>{post.views.toLocaleString()} views</span>
                 </>
               )}
@@ -115,27 +128,25 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Main Content */}
           <article className="lg:w-2/3">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12">
-              {/* Article Content */}
-              <div className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-700 prose-a:text-[#1E3A5F] prose-a:no-underline hover:prose-a:underline prose-strong:text-gray-900 prose-ul:text-gray-700 prose-ol:text-gray-700 prose-li:marker:text-[#1E3A5F]">
-                <ReactMarkdown>{post.content}</ReactMarkdown>
-              </div>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 md:p-12 lg:p-16">
+              {/* Article Content with Custom Styling */}
+              <ArticleContent content={post.content} />
 
-              {/* Tags */}
+              {/* Tags Section */}
               {post.tags.length > 0 && (
-                <div className="mt-12 pt-8 border-t border-gray-100">
-                  <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                <div className="mt-16 pt-8 border-t-2 border-gray-100">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
                     Topics
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
+                        className="bg-slate-100 text-slate-600 px-4 py-2 rounded-full text-sm font-medium hover:bg-slate-200 transition-colors cursor-default"
                       >
                         {tag}
                       </span>
@@ -144,9 +155,9 @@ export default async function BlogPostPage({ params }: PageProps) {
                 </div>
               )}
 
-              {/* Share */}
-              <div className="mt-8 pt-8 border-t border-gray-100">
-                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+              {/* Share Section */}
+              <div className="mt-10 pt-8 border-t-2 border-gray-100">
+                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
                   Share This Article
                 </h3>
                 <div className="flex gap-3">
@@ -154,45 +165,45 @@ export default async function BlogPostPage({ params }: PageProps) {
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://horizoncredit.net/blog/${post.slug}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors"
+                    className="flex items-center justify-center w-12 h-12 bg-slate-100 rounded-full hover:bg-slate-900 hover:text-white transition-all font-bold"
+                    title="Share on Twitter"
                   >
-                    <span className="sr-only">Share on Twitter</span>
                     𝕏
                   </a>
                   <a
                     href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://horizoncredit.net/blog/${post.slug}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors"
+                    className="flex items-center justify-center w-12 h-12 bg-slate-100 rounded-full hover:bg-blue-600 hover:text-white transition-all font-bold"
+                    title="Share on Facebook"
                   >
-                    <span className="sr-only">Share on Facebook</span>
                     f
                   </a>
                   <a
                     href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`https://horizoncredit.net/blog/${post.slug}`)}&title=${encodeURIComponent(post.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full hover:bg-blue-100 hover:text-blue-600 transition-colors"
+                    className="flex items-center justify-center w-12 h-12 bg-slate-100 rounded-full hover:bg-blue-700 hover:text-white transition-all font-bold"
+                    title="Share on LinkedIn"
                   >
-                    <span className="sr-only">Share on LinkedIn</span>
                     in
                   </a>
                 </div>
               </div>
             </div>
 
-            {/* CTA */}
-            <div className="mt-8 bg-gradient-to-r from-[#1E3A5F] to-[#2D4A6F] rounded-2xl p-8 text-white text-center">
-              <h2 className="text-2xl font-bold mb-3">
+            {/* CTA Card */}
+            <div className="mt-10 bg-gradient-to-r from-[#1E3A5F] to-[#2D4A6F] rounded-2xl p-10 text-white text-center shadow-xl">
+              <h2 className="text-3xl font-bold mb-4">
                 Ready to Improve Your Credit?
               </h2>
-              <p className="text-blue-100 mb-6 max-w-xl mx-auto">
+              <p className="text-blue-100 mb-8 max-w-xl mx-auto text-lg">
                 Our credit repair experts can help you dispute errors and build a
                 better credit score. Get started with a free consultation today.
               </p>
               <Link
                 href="/signup"
-                className="inline-block bg-white text-[#1E3A5F] font-semibold px-8 py-3 rounded-lg hover:bg-blue-50 transition-colors"
+                className="inline-block bg-emerald-500 text-white font-bold px-10 py-4 rounded-xl hover:bg-emerald-400 transition-colors text-lg shadow-lg"
               >
                 Start Free Consultation
               </Link>
@@ -204,21 +215,21 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="sticky top-24 space-y-8">
               {/* Recent Posts */}
               {otherPosts.length > 0 && (
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                  <h3 className="text-lg font-bold text-gray-900 mb-6 pb-4 border-b border-gray-100">
                     Related Articles
                   </h3>
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {otherPosts.map((relatedPost) => (
                       <Link
                         key={relatedPost.id}
                         href={`/blog/${relatedPost.slug}`}
                         className="block group"
                       >
-                        <h4 className="font-medium text-gray-900 group-hover:text-[#1E3A5F] transition-colors line-clamp-2">
+                        <h4 className="font-semibold text-gray-900 group-hover:text-[#1E3A5F] transition-colors line-clamp-2 leading-snug">
                           {relatedPost.title}
                         </h4>
-                        <p className="text-sm text-gray-500 mt-1">
+                        <p className="text-sm text-gray-500 mt-2">
                           {relatedPost.readTime}
                         </p>
                       </Link>
@@ -228,17 +239,17 @@ export default async function BlogPostPage({ params }: PageProps) {
               )}
 
               {/* Newsletter */}
-              <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl p-6 text-white">
-                <h3 className="text-lg font-semibold mb-2">
+              <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl">
+                <h3 className="text-xl font-bold mb-3">
                   Get Credit Tips Weekly
                 </h3>
-                <p className="text-emerald-100 text-sm mb-4">
+                <p className="text-emerald-100 text-sm mb-5 leading-relaxed">
                   Subscribe to our newsletter for the latest credit repair tips
                   and strategies.
                 </p>
                 <Link
                   href="/signup"
-                  className="block w-full text-center bg-white text-emerald-600 font-medium py-2 px-4 rounded-lg hover:bg-emerald-50 transition-colors"
+                  className="block w-full text-center bg-white text-emerald-600 font-bold py-3 px-4 rounded-xl hover:bg-emerald-50 transition-colors"
                 >
                   Subscribe Free
                 </Link>
