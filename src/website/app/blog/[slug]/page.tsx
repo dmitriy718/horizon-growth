@@ -39,8 +39,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// Revalidate every hour
-export const revalidate = 3600;
+// Force dynamic rendering since we need database access
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;

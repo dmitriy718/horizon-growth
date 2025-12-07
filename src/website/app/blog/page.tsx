@@ -16,8 +16,9 @@ export const metadata: Metadata = {
   ],
 };
 
-// Revalidate every hour to pick up new posts
-export const revalidate = 3600;
+// Force dynamic rendering since we need database access
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function BlogPage() {
   const [posts, categories, featuredPosts] = await Promise.all([
