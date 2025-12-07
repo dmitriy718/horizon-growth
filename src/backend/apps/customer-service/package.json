@@ -1,0 +1,27 @@
+{
+  "name": "@horizon/customer-service",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "nest build",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:prod": "node dist/main.js"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.3.0",
+    "@nestjs/config": "^3.1.1",
+    "@nestjs/core": "^10.3.0",
+    "@nestjs/microservices": "^10.3.0",
+    "@horizon/database": "workspace:*",
+    "@horizon/contracts": "workspace:*",
+    "reflect-metadata": "^0.1.14",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.2.1",
+    "@types/node": "^20.10.6",
+    "typescript": "^5.3.3"
+  }
+}
+

@@ -56,4 +56,3 @@ export function getScoreRating(score: number): string {
   if (score >= 550) return "Poor";
   return "Very Poor";
 }
-

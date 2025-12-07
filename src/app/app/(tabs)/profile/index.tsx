@@ -15,7 +15,9 @@ export default function ProfileScreen() {
   ];
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <View style={styles.content}>
         {/* Profile Header */}
         <View style={styles.header}>
@@ -43,7 +45,9 @@ export default function ProfileScreen() {
                 <Text style={[styles.menuTitle, { color: colors.text }]}>
                   {item.title}
                 </Text>
-                <Text style={[styles.menuSubtitle, { color: colors.textSecondary }]}>
+                <Text
+                  style={[styles.menuSubtitle, { color: colors.textSecondary }]}
+                >
                   {item.subtitle}
                 </Text>
               </View>
@@ -142,4 +146,3 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
-

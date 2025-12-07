@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { View, Text, StyleSheet } from "react-native";
+import { Text } from "react-native";
 import { useTheme } from "../../hooks/useTheme";
 
 // Simple icon components

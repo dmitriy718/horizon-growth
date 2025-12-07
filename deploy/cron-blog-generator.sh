@@ -14,3 +14,4 @@ curl -X POST "${SITE_URL}/api/blog/generate" \
 
 echo "Blog generation completed at $(date)" >> /var/log/horizon-blog-generator.log
 
+

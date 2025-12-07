@@ -5,7 +5,6 @@
   "description": "Horizon Credit Repair - AI-Powered Credit Repair Platform",
   "workspaces": [
     "src/website",
-    "src/backend",
     "src/backend/apps/*",
     "src/backend/libs/*",
     "src/app"
@@ -15,7 +14,7 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "type-check": "turbo run type-check",
+    "type-check": "turbo run type-check --concurrency=1",
     "clean": "turbo run clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "website:dev": "pnpm --filter @horizon/website dev",
@@ -23,9 +22,9 @@
     "app:dev": "pnpm --filter @horizon/mobile-app start"
   },
   "devDependencies": {
-    "turbo": "^1.11.2",
     "prettier": "^3.1.1",
-    "typescript": "^5.3.3"
+    "turbo": "^1.11.2",
+    "typescript": "^5.4.0"
   },
   "engines": {
     "node": ">=20.0.0",
@@ -46,6 +45,9 @@
     "url": "https://github.com/horizoncreditrepair/horizon.git"
   },
   "author": "Horizon Credit Repair Team",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@prisma/client": "^7.1.0",
+    "prisma": "^7.1.0"
+  }
 }
-

@@ -1,4 +1,10 @@
-import { View, Text, ScrollView, StyleSheet, RefreshControl } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  RefreshControl,
+} from "react-native";
 import { useState, useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../../hooks/useTheme";
@@ -22,7 +28,9 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.content}
@@ -36,7 +44,7 @@ export default function HomeScreen() {
             {greeting()}! 👋
           </Text>
           <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Here's your credit overview
+            Here&apos;s your credit overview
           </Text>
         </View>
 
@@ -46,7 +54,7 @@ export default function HomeScreen() {
           <Text style={styles.scoreValue}>645</Text>
           <Text style={styles.scoreRating}>FAIR</Text>
           <View style={styles.scoreChange}>
-            <Text style={styles.scoreChangeText}>↑ +23 this month</Text>
+            <Text style={styles.scoreChangeText}>↑ +23 this month&apos;s</Text>
           </View>
           <View style={styles.bureauRow}>
             <View style={styles.bureauItem}>
@@ -75,7 +83,7 @@ export default function HomeScreen() {
           <Text style={[styles.progressText, { color: colors.textSecondary }]}>
             3 of 5 in progress
           </Text>
-          
+
           {/* Dispute Items */}
           <View style={styles.disputeList}>
             <View style={styles.disputeItem}>

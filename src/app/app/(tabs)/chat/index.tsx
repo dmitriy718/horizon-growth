@@ -6,20 +6,22 @@ export default function ChatScreen() {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <View style={styles.content}>
         <Text style={[styles.title, { color: colors.text }]}>AI Assistant</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           Get instant help with credit questions
         </Text>
-        
+
         <View style={[styles.card, { backgroundColor: colors.surface }]}>
           <Text style={[styles.cardTitle, { color: colors.text }]}>
             💬 Coming Soon
           </Text>
           <Text style={[styles.cardText, { color: colors.textSecondary }]}>
-            AI-powered chat assistant to help analyze your credit, answer questions,
-            and guide you through disputes.
+            AI-powered chat assistant to help analyze your credit, answer
+            questions, and guide you through disputes.
           </Text>
         </View>
       </View>
@@ -60,4 +62,3 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 });
-

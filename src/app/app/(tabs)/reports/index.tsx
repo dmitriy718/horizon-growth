@@ -6,13 +6,17 @@ export default function ReportsScreen() {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <View style={styles.content}>
-        <Text style={[styles.title, { color: colors.text }]}>Credit Reports</Text>
+        <Text style={[styles.title, { color: colors.text }]}>
+          Credit Reports
+        </Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           View your detailed credit reports from all three bureaus
         </Text>
-        
+
         <View style={[styles.card, { backgroundColor: colors.surface }]}>
           <Text style={[styles.cardTitle, { color: colors.text }]}>
             📊 Coming Soon
@@ -60,4 +64,3 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 });
-

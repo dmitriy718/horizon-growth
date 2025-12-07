@@ -1,0 +1,483 @@
+// Horizon Credit Repair - Database Schema
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  passwordHash      String?
+  firstName         String
+  lastName          String
+  phone             String?
+  emailVerified     Boolean   @default(false)
+  emailVerifiedAt   DateTime?
+  mfaEnabled        Boolean   @default(false)
+  mfaSecret         String?
+  status            UserStatus @default(ACTIVE)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  customer          Customer?
+  sessions          Session[]
+  refreshTokens     RefreshToken[]
+  notifications     Notification[]
+
+  @@map("users")
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  userId      String
+  token       String   @unique
+  userAgent   String?
+  ipAddress   String?
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model RefreshToken {
+  id          String   @id @default(cuid())
+  userId      String
+  token       String   @unique
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  revokedAt   DateTime?
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+// ============================================
+// CUSTOMER PROFILE
+// ============================================
+
+model Customer {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  
+  // Personal Info (encrypted at rest)
+  ssnLast4          String?   // Only last 4 digits stored
+  ssnEncrypted      String?   // Full SSN encrypted
+  dateOfBirth       DateTime?
+  
+  // Address
+  addressLine1      String?
+  addressLine2      String?
+  city              String?
+  state             String?
+  zipCode           String?
+  
+  // Additional Info
+  goals             String[]  // e.g., ["buy_home", "lower_rates", "improve_score"]
+  referralSource    String?
+  
+  // Subscription
+  subscriptionTier  SubscriptionTier @default(NONE)
+  subscriptionStartDate DateTime?
+  subscriptionEndDate   DateTime?
+  stripeCustomerId  String?   @unique
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  creditReports     CreditReport[]
+  disputes          Dispute[]
+  documents         Document[]
+  payments          Payment[]
+  creditScores      CreditScore[]
+
+  @@map("customers")
+}
+
+enum SubscriptionTier {
+  NONE
+  BASIC
+  PREMIER
+  PREMIER_PLUS
+}
+
+// ============================================
+// CREDIT REPORTS & SCORES
+// ============================================
+
+model CreditReport {
+  id            String   @id @default(cuid())
+  customerId    String
+  bureau        CreditBureau
+  reportDate    DateTime
+  rawDataUrl    String?  // S3 URL to original PDF
+  parsedData    Json?    // Structured parsed data
+  status        ReportStatus @default(PENDING)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  customer      Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  tradelines    Tradeline[]
+  inquiries     Inquiry[]
+  publicRecords PublicRecord[]
+
+  @@index([customerId, bureau])
+  @@map("credit_reports")
+}
+
+enum CreditBureau {
+  EXPERIAN
+  EQUIFAX
+  TRANSUNION
+}
+
+enum ReportStatus {
+  PENDING
+  PROCESSING
+  PARSED
+  ERROR
+}
+
+model CreditScore {
+  id          String   @id @default(cuid())
+  customerId  String
+  bureau      CreditBureau
+  scoreType   String   @default("FICO8") // FICO8, FICO9, VantageScore, etc.
+  score       Int
+  factors     Json?    // Array of factors affecting score
+  recordedAt  DateTime @default(now())
+
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId, bureau, recordedAt])
+  @@map("credit_scores")
+}
+
+model Tradeline {
+  id                String   @id @default(cuid())
+  creditReportId    String
+  
+  // Account Info
+  creditorName      String
+  accountNumber     String?  // Masked
+  accountType       AccountType
+  accountStatus     String?
+  
+  // Dates
+  dateOpened        DateTime?
+  dateClosed        DateTime?
+  lastActivityDate  DateTime?
+  
+  // Balances
+  creditLimit       Decimal?  @db.Decimal(12, 2)
+  highBalance       Decimal?  @db.Decimal(12, 2)
+  currentBalance    Decimal?  @db.Decimal(12, 2)
+  
+  // Payment Info
+  paymentStatus     String?   // Current, 30 days late, etc.
+  paymentHistory    Json?     // Array of monthly statuses
+  
+  // Flags
+  isNegative        Boolean   @default(false)
+  isDisputable      Boolean   @default(false)
+  
+  createdAt         DateTime  @default(now())
+
+  // Relations
+  creditReport      CreditReport @relation(fields: [creditReportId], references: [id], onDelete: Cascade)
+  disputes          Dispute[]
+
+  @@index([creditReportId])
+  @@map("tradelines")
+}
+
+enum AccountType {
+  CREDIT_CARD
+  MORTGAGE
+  AUTO_LOAN
+  STUDENT_LOAN
+  PERSONAL_LOAN
+  COLLECTION
+  MEDICAL
+  UTILITY
+  OTHER
+}
+
+model Inquiry {
+  id              String   @id @default(cuid())
+  creditReportId  String
+  creditorName    String
+  inquiryDate     DateTime
+  inquiryType     InquiryType
+  
+  creditReport    CreditReport @relation(fields: [creditReportId], references: [id], onDelete: Cascade)
+
+  @@index([creditReportId])
+  @@map("inquiries")
+}
+
+enum InquiryType {
+  HARD
+  SOFT
+}
+
+model PublicRecord {
+  id              String   @id @default(cuid())
+  creditReportId  String
+  recordType      PublicRecordType
+  courtName       String?
+  caseNumber      String?
+  filedDate       DateTime?
+  amount          Decimal?  @db.Decimal(12, 2)
+  status          String?
+  
+  creditReport    CreditReport @relation(fields: [creditReportId], references: [id], onDelete: Cascade)
+
+  @@index([creditReportId])
+  @@map("public_records")
+}
+
+enum PublicRecordType {
+  BANKRUPTCY_7
+  BANKRUPTCY_13
+  TAX_LIEN
+  CIVIL_JUDGMENT
+  OTHER
+}
+
+// ============================================
+// DISPUTES
+// ============================================
+
+model Dispute {
+  id                String   @id @default(cuid())
+  customerId        String
+  tradelineId       String?
+  
+  // Dispute Details
+  bureau            CreditBureau
+  disputeType       DisputeType
+  reason            String
+  customReason      String?
+  
+  // AI Analysis
+  aiReasons         Json?     // AI-generated reasons
+  successProbability Int?     // 0-100
+  recommendedStrategy String?
+  
+  // Status Tracking
+  status            DisputeStatus @default(DRAFT)
+  submittedAt       DateTime?
+  responseDeadline  DateTime?
+  resolvedAt        DateTime?
+  resolution        DisputeResolution?
+  
+  // Letter
+  letterUrl         String?   // S3 URL to generated PDF
+  trackingNumber    String?
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  customer          Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  tradeline         Tradeline? @relation(fields: [tradelineId], references: [id])
+  activities        DisputeActivity[]
+  documents         Document[]
+
+  @@index([customerId, status])
+  @@map("disputes")
+}
+
+enum DisputeType {
+  NOT_MINE
+  PAID
+  DUPLICATE
+  INCORRECT_BALANCE
+  INCORRECT_STATUS
+  INCORRECT_DATE
+  UNAUTHORIZED
+  FRAUD
+  OTHER
+}
+
+enum DisputeStatus {
+  DRAFT
+  GENERATED
+  SUBMITTED
+  IN_REVIEW
+  PENDING_RESPONSE
+  RESPONDED
+  RESOLVED
+  ESCALATED
+}
+
+enum DisputeResolution {
+  DELETED
+  UPDATED
+  VERIFIED
+  REMAINS
+  PARTIAL
+}
+
+model DisputeActivity {
+  id          String   @id @default(cuid())
+  disputeId   String
+  activityType String
+  description String
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  dispute     Dispute  @relation(fields: [disputeId], references: [id], onDelete: Cascade)
+
+  @@index([disputeId])
+  @@map("dispute_activities")
+}
+
+// ============================================
+// DOCUMENTS
+// ============================================
+
+model Document {
+  id          String   @id @default(cuid())
+  customerId  String
+  disputeId   String?
+  
+  fileName    String
+  fileType    String
+  fileSize    Int
+  s3Key       String
+  s3Url       String
+  category    DocumentCategory
+  
+  createdAt   DateTime @default(now())
+
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  dispute     Dispute? @relation(fields: [disputeId], references: [id])
+
+  @@index([customerId])
+  @@map("documents")
+}
+
+enum DocumentCategory {
+  CREDIT_REPORT
+  ID_DOCUMENT
+  PROOF_OF_ADDRESS
+  DISPUTE_LETTER
+  RESPONSE_LETTER
+  EVIDENCE
+  OTHER
+}
+
+// ============================================
+// BILLING & PAYMENTS
+// ============================================
+
+model Payment {
+  id                String   @id @default(cuid())
+  customerId        String
+  
+  stripePaymentId   String?  @unique
+  stripeInvoiceId   String?
+  
+  amount            Decimal  @db.Decimal(10, 2)
+  currency          String   @default("usd")
+  status            PaymentStatus
+  paymentMethod     String?
+  description       String?
+  
+  paidAt            DateTime?
+  createdAt         DateTime @default(now())
+
+  customer          Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@map("payments")
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+model Notification {
+  id          String   @id @default(cuid())
+  userId      String
+  
+  type        NotificationType
+  title       String
+  message     String
+  data        Json?
+  
+  read        Boolean  @default(false)
+  readAt      DateTime?
+  
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  SCORE_UPDATE
+  DISPUTE_UPDATE
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+  SUBSCRIPTION_EXPIRING
+  NEW_REPORT
+  SYSTEM
+}
+
+// ============================================
+// AUDIT LOG
+// ============================================
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  action      String
+  entityType  String
+  entityId    String?
+  oldValue    Json?
+  newValue    Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@map("audit_logs")
+}

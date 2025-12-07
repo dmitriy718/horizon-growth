@@ -6,13 +6,15 @@ export default function DisputesScreen() {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <View style={styles.content}>
         <Text style={[styles.title, { color: colors.text }]}>Disputes</Text>
         <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           Manage and track your credit disputes
         </Text>
-        
+
         <View style={[styles.card, { backgroundColor: colors.surface }]}>
           <Text style={[styles.cardTitle, { color: colors.text }]}>
             ⚡ Coming Soon
@@ -60,4 +62,3 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
 });
-
