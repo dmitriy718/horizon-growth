@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { getPublishedPosts, getCategories, getFeaturedPosts } from "@/lib/blog";
+import { BlogHeader } from "@/components/blog/blog-header";
 
 export const metadata: Metadata = {
   title: "Credit Repair Blog | Horizon Credit Repair",
@@ -29,6 +30,9 @@ export default async function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      {/* Header with link back to main site */}
+      <BlogHeader />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-[#1E3A5F] to-[#2D4A6F] text-white py-16">
         <div className="container mx-auto px-4">

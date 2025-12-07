@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getRecentPosts } from "@/lib/blog";
 import { ArticleContent } from "./article-content";
+import { BlogHeader } from "@/components/blog/blog-header";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -59,6 +60,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      {/* Header with link back to main site */}
+      <BlogHeader />
+
       {/* Hero Section with Clear Title */}
       <section className="bg-gradient-to-r from-[#1E3A5F] to-[#2D4A6F] text-white py-16 md:py-20">
         <div className="container mx-auto px-4">
