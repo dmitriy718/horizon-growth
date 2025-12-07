@@ -432,7 +432,7 @@ export default function RegisterScreen() {
             <Text style={[styles.footerText, { color: colors.textSecondary }]}>
               Already have an account?{" "}
             </Text>
-            <Link href="/(auth)/login" asChild>
+            <Link href={"/login" as any} asChild>
               <TouchableOpacity>
                 <Text style={[styles.footerLink, { color: colors.primary }]}>Sign In</Text>
               </TouchableOpacity>

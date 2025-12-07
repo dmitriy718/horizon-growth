@@ -73,7 +73,7 @@ export default function ForgotPasswordScreen() {
           
           <TouchableOpacity
             style={[styles.button, { backgroundColor: colors.primary }]}
-            onPress={() => router.replace("/(auth)/login")}
+            onPress={() => router.replace({ pathname: "/login" } as any)}
           >
             <Text style={styles.buttonText}>Back to Login</Text>
           </TouchableOpacity>
@@ -158,7 +158,7 @@ export default function ForgotPasswordScreen() {
           {/* Back to Login */}
           <TouchableOpacity
             style={styles.loginLink}
-            onPress={() => router.replace("/(auth)/login")}
+            onPress={() => router.replace({ pathname: "/login" } as any)}
           >
             <Text style={[styles.loginText, { color: colors.textSecondary }]}>
               Remember your password?{" "}

@@ -175,7 +175,7 @@ export default function LoginScreen() {
             </View>
 
             {/* Forgot Password */}
-            <Link href="/(auth)/forgot-password" asChild>
+            <Link href={"/forgot-password" as any} asChild>
               <TouchableOpacity style={styles.forgotButton}>
                 <Text style={[styles.forgotText, { color: colors.primary }]}>
                   Forgot password?
@@ -217,7 +217,7 @@ export default function LoginScreen() {
             </View>
 
             {/* Register Link */}
-            <Link href="/(auth)/register" asChild>
+            <Link href={"/register" as any} asChild>
               <TouchableOpacity style={[styles.registerButton, { borderColor: colors.border }]}>
                 <Text style={[styles.registerButtonText, { color: colors.text }]}>
                   Create an Account
