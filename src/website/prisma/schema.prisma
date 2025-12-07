@@ -1,0 +1,90 @@
+// Horizon Credit Repair - Website Database Schema
+// Blog posts and website-specific data
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// BLOG POSTS
+// ============================================
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  content     String   @db.Text
+  author      String   @default("Horizon Credit Team")
+  category    String
+  tags        String[]
+  readTime    String   @default("4 min read")
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+  ogImage         String?
+  
+  // Analytics
+  views       Int      @default(0)
+
+  @@index([published, publishedAt])
+  @@index([category])
+  @@index([slug])
+  @@map("blog_posts")
+}
+
+// ============================================
+// CONTACT FORM SUBMISSIONS
+// ============================================
+
+model ContactSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  message     String   @db.Text
+  status      ContactStatus @default(NEW)
+  createdAt   DateTime @default(now())
+  
+  @@index([status, createdAt])
+  @@map("contact_submissions")
+}
+
+enum ContactStatus {
+  NEW
+  READ
+  RESPONDED
+  ARCHIVED
+}
+
+// ============================================
+// NEWSLETTER SUBSCRIBERS
+// ============================================
+
+model NewsletterSubscriber {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  status      SubscriberStatus @default(ACTIVE)
+  subscribedAt DateTime @default(now())
+  unsubscribedAt DateTime?
+  
+  @@index([status])
+  @@map("newsletter_subscribers")
+}
+
+enum SubscriberStatus {
+  ACTIVE
+  UNSUBSCRIBED
+}
+

@@ -481,3 +481,37 @@ model AuditLog {
   @@index([entityType, entityId])
   @@map("audit_logs")
 }
+
+// ============================================
+// BLOG POSTS
+// ============================================
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  content     String   @db.Text
+  author      String   @default("Horizon Credit Team")
+  category    String
+  tags        String[]
+  readTime    String   @default("4 min read")
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+  ogImage         String?
+  
+  // Analytics
+  views       Int      @default(0)
+
+  @@index([published, publishedAt])
+  @@index([category])
+  @@index([slug])
+  @@map("blog_posts")
+}

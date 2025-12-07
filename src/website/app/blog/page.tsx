@@ -1,175 +1,229 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Calendar, Clock, ArrowRight, Tag } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { blogPosts, getFeaturedPosts, getCategories } from "@/lib/blog-posts";
+import { getPublishedPosts, getCategories, getFeaturedPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
-  title: "Credit Repair Blog | Expert Tips & Guides",
+  title: "Credit Repair Blog | Horizon Credit Repair",
   description:
-    "Expert credit repair tips, guides, and strategies from Horizon Credit Repair. Learn how to improve your credit score, dispute errors, and achieve financial success.",
+    "Expert tips, guides, and insights on credit repair, credit scores, debt management, and building better credit. Updated daily with new content.",
   keywords: [
     "credit repair blog",
-    "credit tips",
-    "credit score advice",
-    "credit improvement",
+    "credit score tips",
     "credit education",
-    "credit repair guides",
+    "debt management",
+    "credit building",
+    "credit repair advice",
   ],
 };
 
-export default function BlogPage() {
-  const featuredPosts = getFeaturedPosts();
-  const categories = getCategories();
-  const sortedPosts = [...blogPosts].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+// Revalidate every hour to pick up new posts
+export const revalidate = 3600;
+
+export default async function BlogPage() {
+  const [posts, categories, featuredPosts] = await Promise.all([
+    getPublishedPosts({ limit: 20 }),
+    getCategories(),
+    getFeaturedPosts(3),
+  ]);
 
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-primary via-primary to-accent py-20 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-[#1E3A5F] to-[#2D4A6F] text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-4xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm">
-              <BookOpen className="h-4 w-4" />
-              Credit Education Blog
-            </div>
-            <h1 className="mb-6 font-serif text-4xl font-bold md:text-5xl">
-              Expert Credit Tips & Guides
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Credit Repair Blog
             </h1>
-            <p className="text-lg text-white/80">
-              Learn from our credit experts. Discover strategies to improve your credit score,
-              dispute errors, and achieve your financial goals.
+            <p className="text-xl text-blue-100">
+              Expert insights, tips, and guides to help you understand and improve
+              your credit. New articles published daily.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="border-b bg-slate-50 py-4">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <span className="text-sm text-muted-foreground">Categories:</span>
-            {categories.map((category) => (
-              <Link
-                key={category}
-                href={`/blog/category/${category.toLowerCase().replace(/\s+/g, "-")}`}
-                className="rounded-full bg-white px-3 py-1 text-sm hover:bg-primary hover:text-white"
-              >
-                {category}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Posts */}
-      {featuredPosts.length > 0 && (
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <h2 className="mb-8 font-serif text-2xl font-bold">Featured Articles</h2>
-            <div className="grid gap-8 md:grid-cols-2">
-              {featuredPosts.map((post) => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="group rounded-xl border bg-card p-6 transition-shadow hover:shadow-lg"
-                >
-                  <div className="mb-4 flex items-center gap-4 text-sm text-muted-foreground">
-                    <span className="rounded-full bg-primary/10 px-2 py-1 text-xs text-primary">
-                      {post.category}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      {new Date(post.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      {post.readTime}
-                    </span>
-                  </div>
-                  <h3 className="mb-2 text-xl font-semibold group-hover:text-primary">
-                    {post.title}
-                  </h3>
-                  <p className="mb-4 text-muted-foreground">{post.excerpt}</p>
-                  <span className="inline-flex items-center text-sm font-medium text-primary">
-                    Read More <ArrowRight className="ml-1 h-4 w-4" />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* All Posts */}
-      <section className="bg-slate-50 py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="mb-8 font-serif text-2xl font-bold">All Articles</h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {sortedPosts.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                className="group rounded-xl border bg-card p-6 transition-shadow hover:shadow-lg"
-              >
-                <div className="mb-3 flex items-center gap-2 text-xs text-muted-foreground">
-                  <span className="rounded-full bg-primary/10 px-2 py-0.5 text-primary">
-                    {post.category}
-                  </span>
-                  <span>{post.readTime}</span>
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Main Content */}
+          <div className="lg:w-2/3">
+            {/* Featured Posts */}
+            {featuredPosts.length > 0 && (
+              <section className="mb-12">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Featured Articles
+                </h2>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {featuredPosts.map((post, index) => (
+                    <Link
+                      key={post.id}
+                      href={`/blog/${post.slug}`}
+                      className={`group ${
+                        index === 0 ? "md:col-span-2" : ""
+                      }`}
+                    >
+                      <article
+                        className={`bg-gradient-to-br from-[#1E3A5F] to-[#2D4A6F] rounded-2xl p-6 text-white h-full transition-transform hover:scale-[1.02] ${
+                          index === 0 ? "md:p-8" : ""
+                        }`}
+                      >
+                        <span className="inline-block bg-white/20 text-sm px-3 py-1 rounded-full mb-3">
+                          {post.category}
+                        </span>
+                        <h3
+                          className={`font-bold mb-2 group-hover:text-blue-200 transition-colors ${
+                            index === 0 ? "text-2xl md:text-3xl" : "text-xl"
+                          }`}
+                        >
+                          {post.title}
+                        </h3>
+                        <p className="text-blue-100 mb-4 line-clamp-2">
+                          {post.excerpt}
+                        </p>
+                        <div className="flex items-center gap-4 text-sm text-blue-200">
+                          <span>{post.readTime}</span>
+                          <span>•</span>
+                          <span>
+                            {new Date(post.publishedAt).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              }
+                            )}
+                          </span>
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
                 </div>
-                <h3 className="mb-2 font-semibold group-hover:text-primary line-clamp-2">
-                  {post.title}
+              </section>
+            )}
+
+            {/* All Posts */}
+            <section>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                Latest Articles
+              </h2>
+              <div className="space-y-6">
+                {posts.map((post) => (
+                  <Link key={post.id} href={`/blog/${post.slug}`} className="group">
+                    <article className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+                      <div className="flex flex-col md:flex-row md:items-start gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <span className="text-xs font-medium text-[#1E3A5F] bg-blue-50 px-2 py-1 rounded">
+                              {post.category}
+                            </span>
+                            <span className="text-xs text-gray-500">
+                              {post.readTime}
+                            </span>
+                          </div>
+                          <h3 className="text-xl font-semibold text-gray-900 group-hover:text-[#1E3A5F] transition-colors mb-2">
+                            {post.title}
+                          </h3>
+                          <p className="text-gray-600 line-clamp-2 mb-3">
+                            {post.excerpt}
+                          </p>
+                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                            <span>{post.author}</span>
+                            <span>•</span>
+                            <span>
+                              {new Date(post.publishedAt).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                }
+                              )}
+                            </span>
+                            {post.views > 0 && (
+                              <>
+                                <span>•</span>
+                                <span>{post.views.toLocaleString()} views</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </Link>
+                ))}
+              </div>
+
+              {posts.length === 0 && (
+                <div className="text-center py-12">
+                  <p className="text-gray-600">
+                    No blog posts yet. Check back soon!
+                  </p>
+                </div>
+              )}
+            </section>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="lg:w-1/3">
+            <div className="sticky top-24 space-y-8">
+              {/* Categories */}
+              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Categories
                 </h3>
-                <p className="mb-3 text-sm text-muted-foreground line-clamp-2">
-                  {post.excerpt}
-                </p>
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>
-                    {new Date(post.date).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </span>
-                  <span className="flex items-center text-primary">
-                    Read <ArrowRight className="ml-1 h-3 w-3" />
-                  </span>
+                <div className="space-y-2">
+                  {categories.map((cat) => (
+                    <Link
+                      key={cat.category}
+                      href={`/blog?category=${encodeURIComponent(cat.category)}`}
+                      className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <span className="text-gray-700">{cat.category}</span>
+                      <span className="text-sm text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                        {cat.count}
+                      </span>
+                    </Link>
+                  ))}
                 </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+              </div>
 
-      {/* Newsletter CTA */}
-      <section className="bg-primary py-16 text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="mb-4 font-serif text-3xl font-bold">
-            Get Credit Tips in Your Inbox
-          </h2>
-          <p className="mx-auto mb-8 max-w-2xl text-primary-foreground/80">
-            Subscribe to our newsletter for weekly credit tips, industry news, and exclusive
-            guides to help you on your credit journey.
-          </p>
-          <div className="mx-auto flex max-w-md flex-col gap-4 sm:flex-row">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 rounded-lg px-4 py-2 text-foreground"
-            />
-            <Button variant="secondary">Subscribe</Button>
-          </div>
+              {/* Newsletter CTA */}
+              <div className="bg-gradient-to-br from-[#1E3A5F] to-[#2D4A6F] rounded-xl p-6 text-white">
+                <h3 className="text-lg font-semibold mb-2">
+                  Credit Tips in Your Inbox
+                </h3>
+                <p className="text-blue-100 text-sm mb-4">
+                  Get weekly credit tips, score updates, and exclusive content
+                  delivered to your email.
+                </p>
+                <Link
+                  href="/signup"
+                  className="block w-full text-center bg-white text-[#1E3A5F] font-medium py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
+                >
+                  Subscribe Free
+                </Link>
+              </div>
+
+              {/* CTA */}
+              <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl p-6 text-white">
+                <h3 className="text-lg font-semibold mb-2">
+                  Need Credit Help?
+                </h3>
+                <p className="text-emerald-100 text-sm mb-4">
+                  Our experts can help you dispute errors and improve your credit
+                  score.
+                </p>
+                <Link
+                  href="/pricing"
+                  className="block w-full text-center bg-white text-emerald-600 font-medium py-2 px-4 rounded-lg hover:bg-emerald-50 transition-colors"
+                >
+                  View Plans
+                </Link>
+              </div>
+            </div>
+          </aside>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
-
-
