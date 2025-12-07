@@ -6,6 +6,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils/cn";
+import { SearchButton } from "@/components/search/search-modal";
 
 const navigation = {
   services: {
@@ -99,6 +100,7 @@ export function Header() {
 
         {/* Desktop CTA */}
         <div className="hidden lg:flex lg:items-center lg:gap-4">
+          <SearchButton />
           <Button variant="ghost" asChild>
             <Link href="/login">Login</Link>
           </Button>

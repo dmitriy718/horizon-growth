@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Facebook, Twitter, Instagram, Linkedin, Youtube, Phone, Mail, MapPin } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { Logo } from "@/components/brand/logo";
+import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
 
 const footerLinks = {
   services: {
@@ -121,6 +122,17 @@ export function Footer() {
               </ul>
             </div>
           ))}
+        </div>
+
+        {/* Newsletter Section */}
+        <div className="mt-12 pt-8 border-t">
+          <div className="max-w-md">
+            <NewsletterSignup 
+              variant="footer"
+              title="Get Credit Tips in Your Inbox"
+              description="Join 10,000+ subscribers getting weekly credit advice that actually works."
+            />
+          </div>
         </div>
 
         {/* Bottom Section */}

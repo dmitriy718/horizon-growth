@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { getPostBySlug, getRecentPosts } from "@/lib/blog";
 import { ArticleContent } from "./article-content";
 import { BlogHeader } from "@/components/blog/blog-header";
+import { RelatedContent } from "@/components/blog/related-content";
+import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -196,21 +198,14 @@ export default async function BlogPostPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* CTA Card */}
-            <div className="mt-10 bg-gradient-to-r from-[#1E3A5F] to-[#2D4A6F] rounded-2xl p-10 text-white text-center shadow-xl">
-              <h2 className="text-3xl font-bold mb-4">
-                Ready to Improve Your Credit?
-              </h2>
-              <p className="text-blue-100 mb-8 max-w-xl mx-auto text-lg">
-                Our credit repair experts can help you dispute errors and build a
-                better credit score. Get started with a free consultation today.
-              </p>
-              <Link
-                href="/signup"
-                className="inline-block bg-emerald-500 text-white font-bold px-10 py-4 rounded-xl hover:bg-emerald-400 transition-colors text-lg shadow-lg"
-              >
-                Start Free Consultation
-              </Link>
+            {/* Related Content with Smart CTAs */}
+            <div className="mt-10">
+              <RelatedContent
+                currentPostId={post.id}
+                tags={post.tags}
+                category={post.category}
+                limit={4}
+              />
             </div>
           </article>
 
@@ -243,21 +238,11 @@ export default async function BlogPostPage({ params }: PageProps) {
               )}
 
               {/* Newsletter */}
-              <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-xl">
-                <h3 className="text-xl font-bold mb-3">
-                  Get Credit Tips Weekly
-                </h3>
-                <p className="text-emerald-100 text-sm mb-5 leading-relaxed">
-                  Subscribe to our newsletter for the latest credit repair tips
-                  and strategies.
-                </p>
-                <Link
-                  href="/signup"
-                  className="block w-full text-center bg-white text-emerald-600 font-bold py-3 px-4 rounded-xl hover:bg-emerald-50 transition-colors"
-                >
-                  Subscribe Free
-                </Link>
-              </div>
+              <NewsletterSignup 
+                variant="sidebar"
+                title="Get Credit Tips Weekly"
+                description="Subscribe to our newsletter for the latest credit repair tips and strategies."
+              />
             </div>
           </aside>
         </div>

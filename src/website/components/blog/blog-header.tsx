@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
+import { SearchButton } from "@/components/search/search-modal";
 
 export function BlogHeader() {
   return (
@@ -41,8 +42,9 @@ export function BlogHeader() {
             </Link>
           </nav>
 
-          {/* CTA Buttons */}
+          {/* Search + CTA Buttons */}
           <div className="flex items-center gap-3">
+            <SearchButton />
             <Link
               href="/login"
               className="hidden sm:inline-flex text-sm font-medium text-gray-600 hover:text-[#1E3A5F] transition-colors"
